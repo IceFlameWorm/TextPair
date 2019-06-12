@@ -13,4 +13,4 @@ class BaseModel(object):
         根据两段文本的特征向量作为输入，计算出两段文本比较结果。
         retur score
         """
-        raise NotImplementedError`
+        raise NotImplementedError
