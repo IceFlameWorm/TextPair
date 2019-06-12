@@ -9,6 +9,7 @@ class BertModel(BaseModel):
         bert_model 目前用的是pytorch_pretrained_bert中的BertModel实例
         """
         self.bert_model = bert_model
+        self.bert_model.eval()
 
     def tranform(self, vec1, vec2):
         # 这里的vec1 和 vec2 是字典保存了 tokens_tensor和segments_tensor
