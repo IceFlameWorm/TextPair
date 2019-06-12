@@ -12,8 +12,8 @@ class BertVectorizer(BaseVectorizer):
 
     def tranform(self, ares1, ares2):
         tokens1, tokens2 = ares1, ares2 # 这里 ares中保存的是token列表
-        token_ids1 = tokenizer.convert_tokens_to_ids(tokens1)
-        token_ids2 = tokenizer.convert_tokens_to_ids(tokens2)
+        token_ids1 = self.bert_tokenizer.convert_tokens_to_ids(tokens1)
+        token_ids2 = self.bert_tokenizer.convert_tokens_to_ids(tokens2)
         segments1 = [0] * len(token_ids1)
         segments2 = [0] * len(token_ids2)
 

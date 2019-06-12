@@ -1,7 +1,7 @@
 from .base_preprocessor import BasePreprocessor
 
 class BertPreprocessor(BasePreprocessor):
-    def tranform(self, text1, text2):
+    def transform(self, text1, text2):
         cls_token = "[CLS]"
         sep_token = "[SEP]"
         ptext1 = cls_token + text1 + sep_token

@@ -6,6 +6,7 @@ class BaseVectorizer(object):
         ares1, ares2 = pair_ann.get_ares()
         vec1, vec2 = self.tranform(ares1, ares2)
         pair_ann.set_vec(vec1, vec2)
+        return pair_ann
 
     def tranform(self, ares1, ares2):
         """
