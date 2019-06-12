@@ -12,4 +12,4 @@ class BertAnalyzer(BaseAnalyzer):
         # tokens1和tokens2都是list
         tokens1 = self.bert_tokenizer.tokenize(ptext1)
         tokens2 = self.bert_tokenizer.tokenize(ptext2)
-        return tokens1, tokens1
+        return tokens1, tokens2
