@@ -1,4 +1,4 @@
-from .base_analyzer import BaseAnalyzer
+from ..base.base_analyzer import BaseAnalyzer
 
 class BertAnalyzer(BaseAnalyzer):
     def __init__(self, bert_tokenizer):

@@ -1,4 +1,4 @@
-from .base_vectorizer import BaseVectorizer
+from ..base.base_vectorizer import BaseVectorizer
 
 import torch
 

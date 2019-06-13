@@ -1,4 +1,4 @@
-from .base_model import BaseModel
+from ..base.base_model import BaseModel
 
 import torch
 from sklearn.metrics.pairwise import cosine_similarity
