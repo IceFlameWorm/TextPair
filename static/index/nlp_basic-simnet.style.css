@@ -3705,6 +3705,11 @@ aside.aside-action ul>li.back-top>a:after {
     margin: 0 3px
 }
 
+.demo-input-1:empty::before {
+    color:lightgrey;
+    content:attr(placeholder);
+}
+
 .tech-demo .demo-result {
     border: 1px solid #ddd;
     background-color: #fafafa;
