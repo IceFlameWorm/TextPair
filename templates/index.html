@@ -2,7 +2,7 @@
 <!-- saved from url=(0288)file:///C:/Users/aaronnli/projects/baidu_short_text/%E7%99%BE%E5%BA%A6AI%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0-%E5%85%A8%E7%90%83%E9%A2%86%E5%85%88%E7%9A%84%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%B9%B3%E5%8F%B0-%E7%99%BE%E5%BA%A6AI%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0.html -->
 <html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
-    <title>百度AI开放平台-全球领先的人工智能服务平台-百度AI开放平台</title>
+    <title>语言智能</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="人工智能,百度AI开放平台,语音,speech,语音技术,图像,图像技术,NLP,自然语言,视频分析,视频技术,知识图谱,增强现实,大数据,数据智能,深度学习,机器学习,Paddle,场景应用,解决方案,baiduai,ai.baidu.com,aibaidu,baidubrain,baidurengongzhineng,baidurengongzhinengkaifangpingtai,baidudanao,智能,人工神经网络,人工智能的未来,人工智能产品,什么是人工智能,人工智能专业,人工智能技术,人工智能网站,人工智能的应用,人工智能算法,人工智能系统,人工智能编程,百度智能,AI,AI软件,百度,baidu,百度大脑,百度大脑官网,百度大脑平台,百度大脑开放平台,百度AI,百度AI平台,百度人工智能,人工智能百度,百度人工智能平台,百度人工智能开放平台,百度人工智能技术,百度大脑开放api,百度语音,百度图像,百度NLP,百度自然语言,百度自然语言处理,百度视频技术,百度知识图谱,百度增强现实,百度数据智能,百度深度学习">
@@ -48,7 +48,10 @@ a[href^="http://go.gotourl.xyz/"], a[href^="http://www.upupoo.com/?"], a[href^="
 {
     visibility: hidden !important;
 }
-</style></head>
+</style>
+
+<script src="/static/vue/vue.js"></script>
+</head>
 <body class="ai-platform" youdao="bind">
 <img src="/static/index/03D0F32FE36C4E3A893D1AD60E797F5B" class="ai-share-icon" alt="">
 <div class="ai-nav-contain" id="ai-nav-contain">
@@ -2692,19 +2695,23 @@ a[href^="http://go.gotourl.xyz/"], a[href^="http://www.upupoo.com/?"], a[href^="
 
         <div style="height: 30px;"></div>
 
-         <div class="demo-container-1">
+         <div id="demo-input" class="demo-container-1">
             <div>
                 <span class="refresh-demo">请自行输入测试文本</span>
             </div>
             <div class="clear-float demo-content-1">
-                <div class="demo-input demo-input-1" style="width: 580px;" contenteditable tabindex="0" placeholder="请输入文本："></div>
-                <div class="demo-input demo-input-1" style="width: 580px; margin-right:0px;" contenteditable tabindex="0" placeholder="请输入文本："></div>
+                <div id="demo-input-1" class="demo-input demo-input-1" style="width: 580px;" contenteditable tabindex="0" placeholder="请输入文本：">
+                    {{ input_1 }}
+                </div>
+                <div id="demo-input-2" class="demo-input demo-input-1" style="width: 580px; margin-right:0px;" contenteditable tabindex="0" placeholder="请输入文本：">
+                    {{input_2}}
+                </div>
             </div>
             <div class="demo-result-1" style="width: 100%; margin-top: 10px">
-                <a role="button" data-score="0.761517" class="btn-normal selected">提交比对相似度</a>
+                <a role="button" data-score="0.761517" class="btn-normal selected" onclick="demo_submit()">提交比对相似度</a>
                 <div class="demo-score">
                     <div class="demo-score-desc">说明：该分值表明选项内容与文字的相似度，数值从0起，越接近于1，则相似度越高。</div>
-                    <div class="demo-score-detail good"></div>
+                    <div id="demo-result" class="demo-score-detail good"></div>
                 </div>
             </div>
         </div>
@@ -3560,5 +3567,39 @@ a[href^="http://go.gotourl.xyz/"], a[href^="http://www.upupoo.com/?"], a[href^="
 
     <script> var _trace_page_logid = 1931825034; </script>
 -->
+
+    <script>
+        var app1 = new Vue({
+            el: '#demo-input',
+            data: {
+                input_1: '你好啊',
+                input_2: '大家好'
+            }
+        });
+
+        function demo_submit() {
+            var text1 = document.getElementById('demo-input-1').innerText;
+            var text2 = document.getElementById('demo-input-2').innerText;
+            if (text1.trim() == "" || text2.trim() == "") {
+                return;
+            }
+            var url = "/sim?" + "text1=" + text1 + "&" + "text2=" + text2;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200) {
+                    resp = JSON.parse(this.responseText);
+                    if (resp['status'] == 0) {
+                        document.getElementById("demo-result").innerText = resp['score']
+                    }
+                    else {
+                        document.getElementById("demo-result").innerText = resp['msg']
+                    }
+                }
+            };
+            xhttp.open("GET", url, true);
+            xhttp.send()
+        };
+    </script>
+
 </body>
 </html>

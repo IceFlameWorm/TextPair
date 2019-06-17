@@ -40,7 +40,7 @@ def sim():
     else:
         res['status'] = 0
         res['msg'] = 'successful'
-        res['score'] = float(ann.scorem)
+        res['score'] = float(ann.score)
         return jsonify(res)
 
 
