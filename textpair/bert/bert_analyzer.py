@@ -10,6 +10,8 @@ class BertAnalyzer(BaseAnalyzer):
     def tranform(self, ptext1, ptext2):
         # 应该是以字符的模式进行tokenize
         # tokens1和tokens2都是list
-        tokens1 = self.bert_tokenizer.tokenize(ptext1)
-        tokens2 = self.bert_tokenizer.tokenize(ptext2)
+        cls_token = ["[CLS]"]
+        sep_token = ["[SEP]"]
+        tokens1 = cls_token + self.bert_tokenizer.tokenize(ptext1) + sep_token
+        tokens2 = cls_token + self.bert_tokenizer.tokenize(ptext2) + sep_token
         return tokens1, tokens2
