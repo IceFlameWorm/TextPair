@@ -1,8 +1,6 @@
-from flask import Flask
-from flask import render_template
-from flask import request, jsonify, make_response
+from .app import app
+from flask import request, jsonify
 
-import json
 from textpair.bert.bert_semantic import BertSemantic
 from textpair.pair_ann import PairAnn
 
@@ -13,13 +11,7 @@ sim_pipeline = BertSemantic(bert_model_file = BERT_MODEL_FILE,
                             bert_vocab_file = BERT_VOCAB_FILE
                            )
 
-app = Flask(__name__)
-
-@app.route('/')
-def index():
-    return app.send_static_file("index.html")
-
-@app.route('/sim')
+@app.route("/sim")
 def sim():
     res = {}
     text1 = request.args.get('text1')
@@ -42,7 +34,3 @@ def sim():
         res['msg'] = 'successful'
         res['score'] = float(ann.score)
         return jsonify(res)
-
-
-if __name__ == "__main__":
-    app.run(host = '0.0.0.0', debug=True)
