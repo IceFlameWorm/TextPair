@@ -1,8 +1,8 @@
 from .app import app
 from flask import request, jsonify
 
-from textpair.bert.bert_semantic import BertSemantic
-from textpair.pair_ann import PairAnn
+from textpair.pair.simple_bert import BertSemantic
+from textpair.pair.pair_ann import PairAnn
 
 BERT_MODEL_FILE = './data/bert/pytorch/bert-base-chinese.tar.gz'
 BERT_VOCAB_FILE = './data/bert/pytorch/bert-base-chinese-vocab.txt'
