@@ -2,11 +2,7 @@ import torch
 from .base import *
 from .ann import Ann
 from pytorch_pretrained_bert import BertTokenizer, BertModel
-
-class BertPreprocessor(BasePreprocessor):
-    def transform(self, text):
-        return text
-
+from .common import DummyPreprocessor as BertPreprocessor
 
 class BertAnalyzer(BaseAnlyzer):
     def __init__(self, bert_tokenizer):
