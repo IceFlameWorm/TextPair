@@ -34,6 +34,7 @@ class JiebaTokenizer(BaseAnlyzer):
     def transform(self, text):
         # 分词
         words = jieba.cut(text)
+        return words
         # 移除停用词，包括一些标点符号等
 
         # 同义词转换
