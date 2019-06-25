@@ -70,7 +70,7 @@ class PaddleBowSim(BasePair):
         self.infer_feeder = fluid.DataFeeder( place=place, feed_list=self.feed_var_names, program=self.program)
         super(PaddleBowSim, self).__init__(textu = textu)
 
-    def tranform(self, vec1, vec2):
+    def transform(self, vec1, vec2):
         output = self.executor.run(self.program,
                                    feed=self.infer_feeder.feed([[vec1, vec2]]),
                                    fetch_list=self.fetch_targets)
@@ -79,5 +79,4 @@ class PaddleBowSim(BasePair):
         else:
             score = list(map(lambda item: np.argmax(item), output[1]))[0]
         return score
-        pass
 

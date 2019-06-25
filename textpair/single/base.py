@@ -65,8 +65,8 @@ class BasePair(object):
         ann2 = self._textu(ann2)
         vec1 = ann1.vec
         vec2 = ann2.vec
-        score = self.tranform(vec1, vec2)
+        score = self.transform(vec1, vec2)
         return score
 
-    def tranform(self, vec1, vec2):
+    def transform(self, vec1, vec2):
         raise NotImplementedError

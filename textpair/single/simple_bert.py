@@ -4,6 +4,8 @@ from .ann import Ann
 from pytorch_pretrained_bert import BertTokenizer, BertModel
 from .common import DummyPreprocessor as BertPreprocessor
 
+from sklearn.metrics.pairwise import cosine_similarity
+
 class BertAnalyzer(BaseAnlyzer):
     def __init__(self, bert_tokenizer):
         self.bert_tokenizer = bert_tokenizer
@@ -50,6 +52,17 @@ class BertTextU(BaseTextU):
                                         vectorizer = bert_vectorizer
                                        )
 
+
+class BertSim(BasePair):
+    def __init__(self, bert_model_file,
+                 bert_vocab_file
+                ):
+        textu = BertTextU(bert_model_file, bert_vocab_file)
+        super(BertSim, self).__init__(textu = textu)
+
+    def transform(self, vec1, vec2):
+        score = score = cosine_similarity(vec1, vec2)[0, 0]
+        return score
 
 if __name__ == "__main__":
     import os
