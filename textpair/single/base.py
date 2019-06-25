@@ -12,7 +12,7 @@ class BasePreprocessor(object):
         raise NotImplementedError
 
 
-class BaseAnlyzer(object):
+class BaseAnalyzer(object):
     def __init__(self):
         pass
 

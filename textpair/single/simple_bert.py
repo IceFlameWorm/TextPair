@@ -6,7 +6,7 @@ from .common import DummyPreprocessor as BertPreprocessor
 
 from sklearn.metrics.pairwise import cosine_similarity
 
-class BertAnalyzer(BaseAnlyzer):
+class BertAnalyzer(BaseAnalyzer):
     def __init__(self, bert_tokenizer):
         self.bert_tokenizer = bert_tokenizer
 

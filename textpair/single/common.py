@@ -1,5 +1,5 @@
 from .base import BasePreprocessor
-from .base import BaseAnlyzer
+from .base import BaseAnalyzer
 
 import re
 import jieba
@@ -18,7 +18,7 @@ class PuncCleaner(BasePreprocessor):
         pass
 
 
-class JiebaTokenizer(BaseAnlyzer):
+class JiebaTokenizer(BaseAnalyzer):
     def __init__(self, user_vocab = None,
                  stop_words = None,
                  syn_words = None,
