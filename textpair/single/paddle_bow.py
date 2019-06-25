@@ -25,7 +25,7 @@ class PaddleBowVectorizer(BaseVectorizer):
     	vocab = {}
     	if not os.path.isfile(file_path):
     	    raise ValueError("vocabulary dose not exist under %s" % file_path)
-    	with open(file_path, 'r') as f:
+    	with open(file_path, 'r', encoding="utf-8") as f:
     	    for line in f:
     	        items = line.strip('\n').split("\t")
     	        if items[0] not in vocab:
@@ -78,5 +78,9 @@ class PaddleBowSim(BasePair):
             score = list( map(lambda item: (item[0] + 1) / 2, output[1]))[0]
         else:
             score = list(map(lambda item: np.argmax(item), output[1]))[0]
-        return score
+
+        res = {"score": score,
+               "left_vec": output[0]
+              }
+        return res
 
