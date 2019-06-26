@@ -25,8 +25,9 @@ class TextNormalizer(BasePreprocessor):
 
     def transform(self, text):
         ## 去除特殊符号
-        pattern = r"[^\u4e00-\u9fa5^a-z^A-Z^0-9^\s]" # 非常见中中英文数字字符, 保留空白字符, 防止相邻的英文单词合并到一起
+        pattern = r"([^\u4e00-\u9fa5^a-z^A-Z^0-9^\s]|\^)" # 非常见中中英文数字字符, 保留空白字符, 防止相邻的英文单词合并到一起
         ptext = re.sub(pattern, '', text)
+        # ptext = re.sub(r'\^', '', ptext)
 
         ## 中文繁体转简体
         snow = SnowNLP(ptext)
@@ -41,7 +42,6 @@ class JiebaTokenizer(BaseAnalyzer):
     def __init__(self, user_dict_path = None,
                  stop_words_path = None,
                  syn_words_path = None,
-                 syn_words_format = 'line', # line or pair
                  char_mode = False
                 ):
         self.user_dict_path = user_dict_path
