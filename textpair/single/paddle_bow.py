@@ -63,7 +63,7 @@ class PaddleBowSim(BasePair):
     def __init__(self, paddle_vocab_file, model_path,
                  user_dict_path = None,
                  stop_words_path = None,
-                 syn_words_path = None
+                 syn_words_path = None,
                  use_cuda = False,
                  task_mode = 'pairwise'
                 ):
