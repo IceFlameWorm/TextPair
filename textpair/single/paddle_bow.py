@@ -2,8 +2,8 @@ from .base import BaseVectorizer
 from .base import BaseTextU
 from .base import BasePair
 
-from .common import TextNormalizer as PaddleBowPreprocessor
-from .common import JiebaTokenizer as PaddleBowAnalyzer
+from .common import TextNormalizer
+from .common import JiebaTokenizer
 from .ann import Ann
 
 import paddle
@@ -43,10 +43,16 @@ class PaddleBowVectorizer(BaseVectorizer):
 
 
 class PaddleBowTextU(BaseTextU):
-    def __init__(self, vocab_file):
-        preprocessor = PaddleBowPreprocessor()
-        analyzer = PaddleBowAnalyzer()
-        vectorizer = PaddleBowVectorizer(vocab_file)
+    def __init__(self, paddle_vocab_file, user_dict_path = None,
+                 stop_words_path = None,
+                 syn_words_path = None
+                ):
+        preprocessor = TextNormalizer()
+        analyzer = JiebaTokenizer(user_dict_path= user_dict_path,
+                                     stop_words_path=stop_words_path,
+                                     syn_words_path=syn_words_path
+                                    )
+        vectorizer = PaddleBowVectorizer(paddle_vocab_file)
         super(PaddleBowTextU, self).__init__(preprocessor = preprocessor,
                                           analyzer = analyzer,
                                           vectorizer = vectorizer
@@ -54,12 +60,19 @@ class PaddleBowTextU(BaseTextU):
 
 
 class PaddleBowSim(BasePair):
-    def __init__(self, vocab_file, model_path,
+    def __init__(self, paddle_vocab_file, model_path,
+                 user_dict_path = None,
+                 stop_words_path = None,
+                 syn_words_path = None
                  use_cuda = False,
                  task_mode = 'pairwise'
                 ):
         self.task_mode = task_mode
-        textu = PaddleBowTextU(vocab_file)
+        textu = PaddleBowTextU(paddle_vocab_file,
+                               user_dict_path=user_dict_path,
+                               stop_words_path=stop_words_path,
+                               syn_words_path=syn_words_path
+                              )
         if use_cuda:
             place = fluid.CUDAPlace(0)
         else:
