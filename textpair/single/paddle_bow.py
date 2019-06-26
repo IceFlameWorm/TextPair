@@ -2,7 +2,7 @@ from .base import BaseVectorizer
 from .base import BaseTextU
 from .base import BasePair
 
-from .common import DummyPreprocessor as PaddleBowPreprocessor
+from .common import TextNormalizer as PaddleBowPreprocessor
 from .common import JiebaTokenizer as PaddleBowAnalyzer
 from .ann import Ann
 

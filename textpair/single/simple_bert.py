@@ -2,7 +2,7 @@ import torch
 from .base import *
 from .ann import Ann
 from pytorch_pretrained_bert import BertTokenizer, BertModel
-from .common import DummyPreprocessor as BertPreprocessor
+from .common import TextNormalizer as BertPreprocessor
 
 from sklearn.metrics.pairwise import cosine_similarity
 

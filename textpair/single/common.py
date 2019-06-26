@@ -3,19 +3,35 @@ from .base import BaseAnalyzer
 
 import re
 import jieba
+from snownlp import SnowNLP
 
 class DummyPreprocessor(BasePreprocessor):
     def transform(self, text):
         return text
 
 
-class PuncCleaner(BasePreprocessor):
-    def __init__(self, puncs):
-        self.puncs = puncs
+class TextNormalizer(BasePreprocessor):
+    """
+    主要功能：
+        1. 去除特殊符号（标点、空格等），只保留中文、英文、数字等
+        2. 中文繁体转换为简体
+        3. 英文统一为小写
+    """
+    def __init__(self):
         pass
 
     def transform(self, text):
-        pass
+        ## 去除特殊符号
+        pattern = r"[^\u4e00-\u9fa5^a-z^A-Z^0-9]" # 非常见中中英文数字字符
+        ptext = re.sub(pattern, '', text)
+
+        ## 中文繁体转简体
+        snow = SnowNLP(ptext)
+        ptext = snow.han
+
+        ## 英文统一为小写
+        ptext = ptext.lower()
+        return ptext
 
 
 class JiebaTokenizer(BaseAnalyzer):
