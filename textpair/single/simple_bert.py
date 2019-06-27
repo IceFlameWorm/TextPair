@@ -39,11 +39,11 @@ class BertVectorizer(BaseVectorizer):
 
 
 class BertTextU(BaseTextU):
-    def __init__(self, bert_model_file,
-                 bert_vocab_file
+    def __init__(self, bert_model_path,
+                 bert_vocab_path
                 ):
-        self.bert_model = BertModel.from_pretrained(bert_model_file)
-        self.bert_tokenizer = BertTokenizer.from_pretrained(bert_vocab_file)
+        self.bert_model = BertModel.from_pretrained(bert_model_path)
+        self.bert_tokenizer = BertTokenizer.from_pretrained(bert_vocab_path)
         bert_preprocessor = BertPreprocessor()
         bert_analyzer = BertAnalyzer(self.bert_tokenizer)
         bert_vectorizer = BertVectorizer(self.bert_model, self.bert_tokenizer)
@@ -54,15 +54,16 @@ class BertTextU(BaseTextU):
 
 
 class BertSim(BasePair):
-    def __init__(self, bert_model_file,
-                 bert_vocab_file
+    def __init__(self, bert_model_path,
+                 bert_vocab_path
                 ):
-        textu = BertTextU(bert_model_file, bert_vocab_file)
+        textu = BertTextU(bert_model_path, bert_vocab_path)
         super(BertSim, self).__init__(textu = textu)
 
     def transform(self, vec1, vec2):
         score = (cosine_similarity(vec1, vec2)[0, 0] + 1.0) / 2.0
-        return score
+        res = {'score': score}
+        return res
 
 if __name__ == "__main__":
     import os

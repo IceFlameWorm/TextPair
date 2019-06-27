@@ -43,7 +43,7 @@ class PaddleBowVectorizer(BaseVectorizer):
 
 
 class PaddleBowTextU(BaseTextU):
-    def __init__(self, paddle_vocab_file, user_dict_path = None,
+    def __init__(self, paddle_vocab_path, user_dict_path = None,
                  stop_words_path = None,
                  syn_words_path = None
                 ):
@@ -52,7 +52,7 @@ class PaddleBowTextU(BaseTextU):
                                      stop_words_path=stop_words_path,
                                      syn_words_path=syn_words_path
                                     )
-        vectorizer = PaddleBowVectorizer(paddle_vocab_file)
+        vectorizer = PaddleBowVectorizer(paddle_vocab_path)
         super(PaddleBowTextU, self).__init__(preprocessor = preprocessor,
                                           analyzer = analyzer,
                                           vectorizer = vectorizer
@@ -60,7 +60,8 @@ class PaddleBowTextU(BaseTextU):
 
 
 class PaddleBowSim(BasePair):
-    def __init__(self, paddle_vocab_file, model_path,
+    def __init__(self, paddle_model_path,
+                 paddle_vocab_path,
                  user_dict_path = None,
                  stop_words_path = None,
                  syn_words_path = None,
@@ -68,7 +69,7 @@ class PaddleBowSim(BasePair):
                  task_mode = 'pairwise'
                 ):
         self.task_mode = task_mode
-        textu = PaddleBowTextU(paddle_vocab_file,
+        textu = PaddleBowTextU(paddle_vocab_path,
                                user_dict_path=user_dict_path,
                                stop_words_path=stop_words_path,
                                syn_words_path=syn_words_path
@@ -79,7 +80,7 @@ class PaddleBowSim(BasePair):
             place = fluid.CPUPlace()
 
         self.executor = fluid.Executor(place=place)
-        self.program, self.feed_var_names, self.fetch_targets = fluid.io.load_inference_model( model_path, self.executor)
+        self.program, self.feed_var_names, self.fetch_targets = fluid.io.load_inference_model(paddle_model_path, self.executor)
         self.infer_feeder = fluid.DataFeeder( place=place, feed_list=self.feed_var_names, program=self.program)
         super(PaddleBowSim, self).__init__(textu = textu)
 
