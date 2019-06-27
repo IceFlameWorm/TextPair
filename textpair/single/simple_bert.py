@@ -61,7 +61,7 @@ class BertSim(BasePair):
         super(BertSim, self).__init__(textu = textu)
 
     def transform(self, vec1, vec2):
-        score = score = cosine_similarity(vec1, vec2)[0, 0]
+        score = (cosine_similarity(vec1, vec2)[0, 0] + 1.0) / 2.0
         return score
 
 if __name__ == "__main__":
