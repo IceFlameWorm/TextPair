@@ -3584,7 +3584,7 @@ a[href^="http://go.gotourl.xyz/"], a[href^="http://www.upupoo.com/?"], a[href^="
             if (text1.trim() == "" || text2.trim() == "") {
                 return;
             }
-            var url = "/sim?" + "text1=" + text1 + "&" + "text2=" + text2;
+            var url = "/sim";
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if(this.readyState == 4 && this.status == 200) {
@@ -3597,8 +3597,12 @@ a[href^="http://go.gotourl.xyz/"], a[href^="http://www.upupoo.com/?"], a[href^="
                     }
                 }
             };
-            xhttp.open("GET", url, true);
-            xhttp.send()
+            xhttp.open("POST", url, true);
+            xhttp.setRequestHeader("Content-type","application/json");
+            xhttp.send(JSON.stringify({"text1": text1,
+                                       "text2": text2,
+                                       "model": "paddle_bow"
+                                      }))
         };
 
         //去除复制样式的方法
