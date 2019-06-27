@@ -1,0 +1,247 @@
+body {
+    background-color:#012169;
+    font-family: 黑体；
+}
+form {
+	padding-bottom: 0px; padding-top: 0px; padding-left: 0px; margin: 0px; padding-right: 0px
+}
+p {
+	padding-bottom: 0px; padding-top: 0px; padding-left: 0px; margin: 0px; padding-right: 0px
+}
+span {
+	padding-bottom: 0px; padding-top: 0px; padding-left: 0px; margin: 0px; padding-right: 0px
+}
+input {
+    font: 12px 黑体;
+    color: white;
+}
+a {
+	text-decoration: none; color: #0000ff;
+}
+a:hover {
+	text-decoration: underline
+}
+#wrapper {
+	 width: 504px;  padding-bottom: 25px;  margin: 0px auto; z-index:5;
+}
+#loginform {
+	border-top: #acd8f0 1px solid; border-right: #acd8f0 1px solid; width: 504px;  border-bottom: #acd8f0 1px solid; padding-bottom: 25px; border-left: #acd8f0 1px solid; margin: 0px auto
+}
+#loginform {
+	padding-top: 18px
+}
+#loginform p {
+	margin: 5px
+}
+#chatbox {
+	overflow: auto; border-top: #acd8f0 1px solid; height: 270px; border-right: #acd8f0 1px solid; width: 430px; background: #fff; border-bottom: #acd8f0 1px solid; padding-bottom: 10px; text-align: left; padding-top: 10px; padding-left: 10px; border-left: #acd8f0 1px solid; margin: 0px auto 25px; padding-right: 10px
+}
+#usermsg {
+	border-top: #acd8f0 1px solid; border-right: #acd8f0 1px solid; width: 395px; border-bottom: #acd8f0 1px solid; border-left: #acd8f0 1px solid
+}
+#submit {
+	width: 60px
+}
+.error {
+	color: #ff0000
+}
+#menu {
+	padding-bottom: 12px; padding-top: 12px; padding-left: 25px; padding-right: 25px
+}
+.welcome {
+	margin:0 auto;
+        color:white;
+}
+.logout {
+	float: right
+}
+.msgln {
+	margin: 0px 0px 2px
+}
+
+.green-one{
+    background-color:rgba(255,255,255,.2);
+    
+	color:white;
+    font-size:9pt;
+	margin:50px auto;
+    padding:10px 40px;
+    width:800px;
+	z-index:5;
+
+}
+.green-one-sa{
+    background-color:rgba(69,137,148,.2);
+    
+	color:white;
+   
+    font-size:11pt;
+	margin:200px auto;
+    padding:10px 40px;
+    width:800px;
+    height:400px;
+	z-index:5;
+
+}
+.sidebar{
+    position:relative;
+    
+    background-color:#005587;
+    font-family:'Open Sans', sans-serif;
+    font-weight:100;
+    color:white;
+    border:30px solid #005587;
+    border-right-color: transparent;
+    border-right:20px solid transparent;
+    padding-right: -30px;
+    box-shadow: 10px 10px 10px rgba(0,0,0,.3);
+    height:100%;
+}
+.english:first-child:first-letter {
+    color:#86bc25;
+    float:right;
+    font-size:23pt;
+    line-height: 20pt;
+    
+}
+#back{
+    background-color:#012169;
+}
+
+.head{
+	position:relative;
+    top:15vh;
+    text-align: center;
+    font-size:23pt;
+    font-family:'Open Sans', sans-serif;
+    line-height: 29pt;
+}
+
+.english{
+	position:relative;
+    top:25vh;
+    text-align: center;
+    font-weight: 100;
+    font-size: 11pt;
+}
+.flex{
+    width:0;
+    height:0;
+    border-left:400px solid white;
+    border-top: 200px solid transparent;
+    border-bottom: 200px solid transparent;
+    position:absolute;
+    z-index:0;
+    top:200px;
+    left:100px;
+}
+.flex1{
+    width:0;
+    height:0;
+    border-left:100px solid transparent;
+    border-right: 100px solid rgba(255,255,255,.7);
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    position:absolute;
+    z-index:0;
+    top:260px;
+    left:-90px;
+    
+    
+}
+.flex2{
+    width:0;
+    height:0;
+    border-right: 600px solid rgba(255,255,255,.6);
+    border-top: 300px solid transparent;
+    border-bottom:0px solid transparent;
+    position:absolute;
+    z-index:-1;
+    bottom:0;
+    right:0;
+}
+
+.head{
+    border-top: 3px solid white;
+    border-bottom: 3px solid white;
+    padding:20px 0px;
+}
+    
+figure {
+    width: 50%;
+    float: left;
+    margin: 0 auto;
+    text-align: center;
+    
+}
+.img{
+    width:400px;
+    margin:0 auto;
+}
+.div-center{
+    text-align: center; /*让div内部文字居中*/
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.stretch{
+    position:relative;
+    height:100vh;
+}
+
+input::-webkit-input-placeholder{
+            color:white;
+        }
+
+button{
+    position:relative;
+    left:41%;
+    top:10px;
+    background:rgba(137,190,178,0);
+    border:0px;
+    color: white;
+    font-size:16pt;
+    margin:10px auto;
+}
+
+
+
+#resultscore{
+    font-size: 20pt;
+    font-weight: bold;
+    color: yellow;
+}
+
+
+#Fade2{
+    display: none;
+
+}
+
+#Fade3{
+    display: none;
+
+}
+
+.menubt{
+    position: relative;
+    top:150px;
+    left:10px;
+}
+
+
+#text{
+color:black;}
+
+
+
+#submitbtn2{
+position:relative;
+left:65px;}
+
+.sub{
+    background-color:rgba(137,190,178,0.2) 
+}
+
