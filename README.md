@@ -24,6 +24,13 @@ NLP中有不少任务涉及比较两段文本的关系，比如词义相似度�
 基于NLP分析的结果或者向量化的结果，预测两段文本之间的关系。
 
 ## 目前进展
-1. 基于预训练的中文bert模型+余弦相似度实现了简单的中文语义相似度比较，demo请参见 `notebooks/bert_sim_test_[single | pair].ipynb`
-2. 对百度预训练的语义相似度模型进行了封装，demo请参见 `notebooks/paddle_sim_test.ipynb`
-3. 文本相似度 web demo，在项目根目录下运行 ```python run.py```，在浏览器访问 `http://127.0.0.1:5000`
+1. 文本预处理的模块：保留中英文和数字，字符小写，繁体变简体，详见 `textpair/single/common.py`中的`TextNormalizer`
+2. 分词模块
+    1. 对jieba进行了封装
+    2. 支持加载用户词表、停用词表和同义词表
+    3. 支持在jieba分词的结果上进行同义词转换
+3. 基于预训练的中文bert模型+余弦相似度实现了简单的中文语义相似度比较，demo请参见 
+    1. 不做预处理：`notebooks/bert_sim_test_[single | pair].ipynb`
+    2. 预处理版本：`notebooks/bert_sim_2_test_single.ipynb`
+4. 对百度预训练的语义相似度模型进行了封装，demo请参见 `notebooks/paddle_sim_test.ipynb`
+5. 文本相似度 web demo，在项目根目录下运行 ```python run.py```，在浏览器访问 `http://127.0.0.1:5000`
