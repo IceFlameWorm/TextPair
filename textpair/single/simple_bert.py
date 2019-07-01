@@ -2,7 +2,8 @@ import torch
 from .base import *
 from .ann import Ann
 from pytorch_pretrained_bert import BertTokenizer, BertModel
-from .common import TextNormalizer as BertPreprocessor
+from .common import TextNormalizer
+from .common import JiebaTokenizer
 
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -44,7 +45,7 @@ class BertTextU(BaseTextU):
                 ):
         self.bert_model = BertModel.from_pretrained(bert_model_path)
         self.bert_tokenizer = BertTokenizer.from_pretrained(bert_vocab_path)
-        bert_preprocessor = BertPreprocessor()
+        bert_preprocessor = TextNormalizer()
         bert_analyzer = BertAnalyzer(self.bert_tokenizer)
         bert_vectorizer = BertVectorizer(self.bert_model, self.bert_tokenizer)
         super(BertTextU, self).__init__(preprocessor = bert_preprocessor,
@@ -59,6 +60,58 @@ class BertSim(BasePair):
                 ):
         textu = BertTextU(bert_model_path, bert_vocab_path)
         super(BertSim, self).__init__(textu = textu)
+
+    def transform(self, vec1, vec2):
+        score = (cosine_similarity(vec1, vec2)[0, 0] + 1.0) / 2.0
+        res = {'score': score}
+        return res
+
+
+class BertPreprocessor(BasePreprocessor):
+    def __init__(self, user_dict_path = None,
+                 stop_words_path = None,
+                 syn_words_path = None
+                ):
+        self.preprocessor = TextNormalizer()
+        self.analyzer = JiebaTokenizer(user_dict_path= user_dict_path,
+                                       stop_words_path= stop_words_path,
+                                       syn_words_path= syn_words_path
+                                      )
+
+    def transform(self, text):
+        _ptext = self.preprocessor.transform(text)
+        words = self.analyzer.transform(_ptext)
+        ptext = "".join(words)
+        return ptext
+
+
+class BertTextU2(BaseTextU):
+    def __init__(self, bert_model_path,
+                 bert_vocab_path,
+                 user_dict_path = None,
+                 stop_words_path = None,
+                 syn_words_path = None
+                ):
+        self.bert_model = BertModel.from_pretrained(bert_model_path)
+        self.bert_tokenizer = BertTokenizer.from_pretrained(bert_vocab_path)
+        bert_preprocessor = BertPreprocessor(user_dict_path= user_dict_path,
+                                             stop_words_path= stop_words_path,
+                                             syn_words_path= syn_words_path
+                                            )
+        bert_analyzer = BertAnalyzer(self.bert_tokenizer)
+        bert_vectorizer = BertVectorizer(self.bert_model, self.bert_tokenizer)
+        super(BertTextU2, self).__init__(preprocessor = bert_preprocessor,
+                                        analyzer = bert_analyzer,
+                                        vectorizer = bert_vectorizer
+                                       )
+
+
+class BertSim2(BasePair):
+    def __init__(self, bert_model_path,
+                 bert_vocab_path
+                ):
+        textu = BertTextU2(bert_model_path, bert_vocab_path)
+        super(BertSim2, self).__init__(textu = textu)
 
     def transform(self, vec1, vec2):
         score = (cosine_similarity(vec1, vec2)[0, 0] + 1.0) / 2.0
