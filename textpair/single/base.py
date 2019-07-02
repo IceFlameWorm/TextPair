@@ -55,6 +55,7 @@ class BaseTextU(object):
         ann = self.vectorizer(ann)
         return ann
 
+class BaseTextUE(BaseTextU):
     def _get_analyzer(self):
         return self.analyzer
 

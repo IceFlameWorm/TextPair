@@ -53,9 +53,6 @@ class BertTextU(BaseTextU):
                                         vectorizer = bert_vectorizer
                                        )
 
-    def _get_analyzer(self):
-        raise Exception("Not supported to get analyzer")
-
 
 class BertSim(BasePair):
     def __init__(self, bert_model_path,
@@ -88,7 +85,7 @@ class BertPreprocessor(BasePreprocessor):
         return ptext
 
 
-class BertTextU2(BaseTextU):
+class BertTextU2(BaseTextUE):
     def __init__(self, bert_model_path,
                  bert_vocab_path,
                  user_dict_path = None,

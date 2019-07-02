@@ -1,5 +1,5 @@
 from .base import BaseVectorizer
-from .base import BaseTextU
+from .base import BaseTextU, BaseTextUE
 from .base import BasePair, BasePairE
 
 from .common import TextNormalizer
@@ -42,7 +42,7 @@ class PaddleBowVectorizer(BaseVectorizer):
         return vec
 
 
-class PaddleBowTextU(BaseTextU):
+class PaddleBowTextU(BaseTextUE):
     def __init__(self, paddle_vocab_path, user_dict_path = None,
                  stop_words_path = None,
                  syn_words_path = None
