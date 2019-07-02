@@ -55,6 +55,8 @@ class BaseTextU(object):
         ann = self.vectorizer(ann)
         return ann
 
+    def _get_analyzer(self):
+        return self.analyzer
 
 class BasePair(object):
     def __init__(self, textu):
@@ -70,3 +72,14 @@ class BasePair(object):
 
     def transform(self, vec1, vec2):
         raise NotImplementedError
+
+    def _get_analyzer(self):
+        return self._textu._get_analyzer()
+
+    def sub_syn_set(self, syn_words_str):
+        analyzer = self._get_analyzer()
+        analyzer.sub_syn_set()
+
+    def reset_syn_set(self):
+        analyzer = self._get_analyzer()
+        analyzer.reset_syn_set()

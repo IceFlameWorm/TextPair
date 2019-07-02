@@ -53,6 +53,9 @@ class BertTextU(BaseTextU):
                                         vectorizer = bert_vectorizer
                                        )
 
+    def _get_analyzer(self):
+        raise Exception("Not supported to get analyzer")
+
 
 class BertSim(BasePair):
     def __init__(self, bert_model_path,
@@ -94,16 +97,19 @@ class BertTextU2(BaseTextU):
                 ):
         self.bert_model = BertModel.from_pretrained(bert_model_path)
         self.bert_tokenizer = BertTokenizer.from_pretrained(bert_vocab_path)
-        bert_preprocessor = BertPreprocessor(user_dict_path= user_dict_path,
+        self.bert_preprocessor = BertPreprocessor(user_dict_path= user_dict_path,
                                              stop_words_path= stop_words_path,
                                              syn_words_path= syn_words_path
                                             )
         bert_analyzer = BertAnalyzer(self.bert_tokenizer)
         bert_vectorizer = BertVectorizer(self.bert_model, self.bert_tokenizer)
-        super(BertTextU2, self).__init__(preprocessor = bert_preprocessor,
+        super(BertTextU2, self).__init__(preprocessor = self.bert_preprocessor,
                                         analyzer = bert_analyzer,
                                         vectorizer = bert_vectorizer
                                        )
+
+    def _get_analyzer(self):
+        return self.bert_preprocessor.analyzer
 
 
 class BertSim2(BasePair):
@@ -117,6 +123,7 @@ class BertSim2(BasePair):
         score = (cosine_similarity(vec1, vec2)[0, 0] + 1.0) / 2.0
         res = {'score': score}
         return res
+
 
 if __name__ == "__main__":
     import os

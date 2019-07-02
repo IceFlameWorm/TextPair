@@ -7,6 +7,7 @@ import re
 import jieba
 from snownlp import SnowNLP
 from collections import defaultdict
+from copy import deepcopy
 
 class DummyPreprocessor(BasePreprocessor):
     def transform(self, text):
@@ -57,6 +58,7 @@ class JiebaTokenizer(BaseAnalyzer):
 
         # 加载同义词表
         self.syn_set = self._load_syn_words(self.syn_words_path)
+        self._syn_set_bak = deepcopy(self.syn_set)
 
 
     def _load_user_dict(self, user_dict_path):
@@ -144,3 +146,25 @@ class JiebaTokenizer(BaseAnalyzer):
         # 同义词转换
         words = [self._syn_of(word) for word in words]
         return words
+
+    def sub_syn_set(self, syn_words_str):
+        # 分行
+        lines = syn_words_str.split('\n')
+        syn_set_words = []
+        word_pairs = []
+        for line in lines:
+            words = line.strip().split()
+            if len(words) < 2:
+                continue
+            syn_set_words += words
+            for word in words[1:]:
+                word_pairs.append((words[0], word))
+        
+        syn_set = SynSet(set(syn_set_words))
+        for w1, w2 in word_pairs:
+            syn_set.union(w1, w2)
+
+        self.syn_set = syn_set
+
+    def reset_syn_set(self):
+        self.syn_set = deepcopy(self._syn_set_bak)

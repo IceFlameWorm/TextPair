@@ -58,16 +58,28 @@ def sim():
     
     model_name = req_dict.get('model', 'simple_bert')
     model = SimFactory.get_model(model_name)
+
     if model is None:
         res['status'] = -3
         res['msg'] = "no available model"
         return jsonify(res)
+
+    model.reset_syn_set()
+    syn_words_str = req_dict.get('syn_words_str')
+    if syn_words_str is not None:
+        try:
+            model.sub_syn_set(syn_words_str)
+        except:
+            res['status'] = -4
+            res['msg'] = 'Error: failed to sub syn_set, please check the format.'
+            return jsonify(res)
+
     try:
         ann1 = Ann(text1)
         ann2 = Ann(text2)
         out = model(ann1, ann2)
     except Exception as e:
-        res['status'] = -4
+        res['status'] = -5
         res['msg'] = "error: failed to run the model."
         print(e)
         return jsonify(res)
