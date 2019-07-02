@@ -68,13 +68,35 @@ def sim():
         res['msg'] = "no available model"
         return jsonify(res)
 
+    model.reset_tokenizer()
+    user_dict_str = req_dict.get('user_dict_str')
+    if user_dict_str is not None:
+        try:
+            model.sub_tokenizer(user_dict_str)
+        except Exception as e:
+            res['status'] = -4
+            res['msg'] = 'Error: failed to sub tokenizer, please check the format.'
+            print(e)
+            return jsonify(res)
+
+    model.reset_stop_words_set()
+    stop_words_str = req_dict.get('stop_words_str')
+    if stop_words_str is not None:
+        try:
+            model.sub_stop_words_set(stop_words_str)
+        except Exception as e:
+           res['status'] = -5
+           res['msg'] = 'Error: failed to sub stop_words, please check the format.'
+           print(e)
+           return jsonify(res)
+       
     model.reset_syn_set()
     syn_words_str = req_dict.get('syn_words_str')
     if syn_words_str is not None:
         try:
             model.sub_syn_set(syn_words_str)
         except Exception as e:
-            res['status'] = -4
+            res['status'] = -6
             res['msg'] = 'Error: failed to sub syn_set, please check the format.'
             print(e)
             return jsonify(res)
@@ -84,7 +106,7 @@ def sim():
         ann2 = Ann(text2)
         out = model(ann1, ann2)
     except Exception as e:
-        res['status'] = -5
+        res['status'] = -7
         res['msg'] = "error: failed to run the model."
         print(e)
         return jsonify(res)
