@@ -44,9 +44,10 @@ def sim():
     try:
         req_data = request.get_data()
         req_dict = json.loads(req_data)
-    except:
+    except Exception as e:
         res['status'] = -1
         res['msg'] = "failed to parse request body."
+        print(e)
         return jsonify(res)
     
     text1 = req_dict.get('text1')
@@ -56,6 +57,9 @@ def sim():
         res['msg'] = 'error: text1 or text2 is not set.'
         return jsonify(res)
     
+    res['text1'] = text1
+    res['text2'] = text2
+
     model_name = req_dict.get('model', 'simple_bert')
     model = SimFactory.get_model(model_name)
 
@@ -69,9 +73,10 @@ def sim():
     if syn_words_str is not None:
         try:
             model.sub_syn_set(syn_words_str)
-        except:
+        except Exception as e:
             res['status'] = -4
             res['msg'] = 'Error: failed to sub syn_set, please check the format.'
+            print(e)
             return jsonify(res)
 
     try:

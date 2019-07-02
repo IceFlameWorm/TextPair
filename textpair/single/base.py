@@ -78,7 +78,7 @@ class BasePair(object):
 
     def sub_syn_set(self, syn_words_str):
         analyzer = self._get_analyzer()
-        analyzer.sub_syn_set()
+        analyzer.sub_syn_set(syn_words_str)
 
     def reset_syn_set(self):
         analyzer = self._get_analyzer()
