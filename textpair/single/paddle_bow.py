@@ -1,6 +1,6 @@
 from .base import BaseVectorizer
 from .base import BaseTextU
-from .base import BasePair
+from .base import BasePair, BasePairE
 
 from .common import TextNormalizer
 from .common import JiebaTokenizer
@@ -59,7 +59,7 @@ class PaddleBowTextU(BaseTextU):
                                          )
 
 
-class PaddleBowSim(BasePair):
+class PaddleBowSim(BasePairE):
     def __init__(self, paddle_model_path,
                  paddle_vocab_path,
                  user_dict_path = None,

@@ -73,6 +73,9 @@ class BasePair(object):
     def transform(self, vec1, vec2):
         raise NotImplementedError
 
+
+class BasePairE(BasePair):
+
     def _get_analyzer(self):
         return self._textu._get_analyzer()
 
@@ -83,3 +86,19 @@ class BasePair(object):
     def reset_syn_set(self):
         analyzer = self._get_analyzer()
         analyzer.reset_syn_set()
+
+    def sub_tokenizer(self, user_dict_str):
+        analyzer = self._get_analyzer()
+        analyzer.sub_tokenizer(user_dict_str)
+
+    def reset_tokenizer(self):
+        analyzer = self._get_analyzer()
+        analyzer.reset_tokenizer()
+
+    def sub_stop_words_set(self, stop_words_str):
+        analyzer = self._get_analyzer()
+        analyzer.sub_stop_words_set(stop_words_str)
+
+    def reset_stop_words_set(self):
+        analyzer = self._get_analyzer()
+        analyzer.reset_stop_words_set()

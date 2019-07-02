@@ -7,7 +7,11 @@ import re
 import jieba
 from snownlp import SnowNLP
 from collections import defaultdict
-from copy import deepcopy
+# from copy import deepcopy
+from io import StringIO
+
+from jieba import text_type
+from jieba import re_userdict
 
 class DummyPreprocessor(BasePreprocessor):
     def transform(self, text):
@@ -51,29 +55,31 @@ class JiebaTokenizer(BaseAnalyzer):
         self.char_mode = char_mode
 
         # 加载自定义词表
-        self._load_user_dict(user_dict_path)
+        self.tokenizer = self._load_user_dict(user_dict_path)
+        self._tokenizer_bak = self.tokenizer
 
         # 加载停用词
         self.stop_words_set = self._load_stop_words(stop_words_path)
+        self._stop_words_set_bak = self.stop_words_set
 
         # 加载同义词表
         self.syn_set = self._load_syn_words(self.syn_words_path)
-        self._syn_set_bak = deepcopy(self.syn_set)
+        self._syn_set_bak = self.syn_set
 
 
     def _load_user_dict(self, user_dict_path):
+        tokenizer = jieba.Tokenizer()
         if user_dict_path is None:
-            return
+            return tokenizer
         
         if os.path.isfile(user_dict_path):
-            jieba.load_userdict(user_dict_path)
-            return
-
-        if os.path.isdir(user_dict_path):
+            tokenizer.load_userdict(user_dict_path)
+        elif os.path.isdir(user_dict_path):
             for fn in os.listdir(user_dict_path):
                 fp = os.path.join(user_dict_path, fn)
                 if os.path.isfile(fp):
-                    jieba.load_userdict(fp)
+                    tokenizer.load_userdict(fp)
+        return tokenizer
 
     def _load_stop_words(self, stop_words_path):
         if stop_words_path is None:
@@ -140,7 +146,7 @@ class JiebaTokenizer(BaseAnalyzer):
         # 分词 + 移除停用词
         words = []
         for sub_t in sub_texts:
-            sub_words = [word for word in jieba.cut(sub_t) if word not in self.stop_words_set]
+            sub_words = [word for word in self.tokenizer.cut(sub_t) if word not in self.stop_words_set]
             words += sub_words
 
         # 同义词转换
@@ -167,4 +173,36 @@ class JiebaTokenizer(BaseAnalyzer):
         self.syn_set = syn_set
 
     def reset_syn_set(self):
-        self.syn_set = deepcopy(self._syn_set_bak)
+        self.syn_set = self._syn_set_bak
+
+    def sub_tokenizer(self, user_dict_str):
+        tokenizer = jieba.Tokenizer()
+        with StringIO(user_dict_str) as f:
+            for lineno, ln in enumerate(f, 1):
+                line = ln.strip()
+                if not isinstance(line, text_type):
+                    try:
+                        line = line.decode('utf-8').lstrip('\ufeff')
+                    except UnicodeDecodeError:
+                        raise ValueError('dictionary file %s must be utf-8' % f_name)
+                if not line:
+                    continue
+                # match won't be None because there's at least one character
+                word, freq, tag = re_userdict.match(line).groups()
+                if freq is not None:
+                    freq = freq.strip()
+                if tag is not None:
+                    tag = tag.strip()
+                tokenizer.add_word(word, freq, tag)
+        self.tokenizer = tokenizer
+
+    def reset_tokenizer(self):
+        self.tokenizer = self._tokenizer_bak
+
+    def sub_stop_words_set(self, stop_words_str):
+        with StringIO(stop_words_str) as f:
+            self.stop_words_set =  set(line.strip() for line in f)
+
+    def reset_stop_words_set(self):
+        self.stop_words_set = self._stop_words_set_bak
+           

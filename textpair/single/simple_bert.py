@@ -112,7 +112,7 @@ class BertTextU2(BaseTextU):
         return self.bert_preprocessor.analyzer
 
 
-class BertSim2(BasePair):
+class BertSim2(BasePairE):
     def __init__(self, bert_model_path,
                  bert_vocab_path
                 ):
