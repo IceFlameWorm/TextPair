@@ -3,7 +3,7 @@ from .base import BaseTextU, BaseTextUE
 from .base import BasePair, BasePairE
 
 from .common import TextNormalizer
-from .common import JiebaTokenizer
+from .common import JiebaTokenizerE
 from .ann import Ann
 
 import paddle
@@ -48,7 +48,7 @@ class PaddleBowTextU(BaseTextUE):
                  syn_words_path = None
                 ):
         preprocessor = TextNormalizer()
-        analyzer = JiebaTokenizer(user_dict_path= user_dict_path,
+        analyzer = JiebaTokenizerE(user_dict_path= user_dict_path,
                                      stop_words_path=stop_words_path,
                                      syn_words_path=syn_words_path
                                     )

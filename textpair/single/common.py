@@ -153,6 +153,9 @@ class JiebaTokenizer(BaseAnalyzer):
         words = [self._syn_of(word) for word in words]
         return words
 
+
+class JiebaTokenizerE(JiebaTokenizer):
+
     def sub_syn_set(self, syn_words_str):
         # 分行
         lines = syn_words_str.split('\n')

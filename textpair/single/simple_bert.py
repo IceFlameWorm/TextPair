@@ -3,7 +3,7 @@ from .base import *
 from .ann import Ann
 from pytorch_pretrained_bert import BertTokenizer, BertModel
 from .common import TextNormalizer
-from .common import JiebaTokenizer
+from .common import JiebaTokenizerE
 
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -73,7 +73,7 @@ class BertPreprocessor(BasePreprocessor):
                  syn_words_path = None
                 ):
         self.preprocessor = TextNormalizer()
-        self.analyzer = JiebaTokenizer(user_dict_path= user_dict_path,
+        self.analyzer = JiebaTokenizerE(user_dict_path= user_dict_path,
                                        stop_words_path= stop_words_path,
                                        syn_words_path= syn_words_path
                                       )
