@@ -1,5 +1,6 @@
 from .app import app
 from flask import request, jsonify
+from flask import make_response, abort, send_file, send_from_directory
 
 from textpair.single.paddle_bow import PaddleBowSim
 from textpair.single.simple_bert import BertSim2
@@ -118,3 +119,16 @@ def sim():
         res['model'] = model_name
         res['score'] = float(out['score'])
         return jsonify(res)
+
+
+
+SAMPLES_DIR = os.path.join(FILE_PATH, 'static/samples')
+
+@app.route('/samples/<file_name>', methods = ['GET'])
+def download_samples(file_name):
+    fp = os.path.join(SAMPLES_DIR, file_name)
+    if not os.path.exists(fp):
+        abort(404)
+    
+    resp = make_response(send_file(fp))
+    return resp
