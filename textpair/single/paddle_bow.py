@@ -42,24 +42,34 @@ class PaddleBowVectorizer(BaseVectorizer):
         return vec
 
 
-class PaddleBowTextU(BaseTextUE):
+class PaddleBowTextU(BaseTextU):
     def __init__(self, paddle_vocab_path, user_dict_path = None,
                  stop_words_path = None,
                  syn_words_path = None
                 ):
         preprocessor = TextNormalizer()
-        analyzer = JiebaTokenizerE(user_dict_path= user_dict_path,
-                                     stop_words_path=stop_words_path,
-                                     syn_words_path=syn_words_path
-                                    )
+        analyzer = self._instantiate_analyzer(user_dict_path= user_dict_path,
+                                              stop_words_path=stop_words_path,
+                                              syn_words_path=syn_words_path
+                                             )
         vectorizer = PaddleBowVectorizer(paddle_vocab_path)
         super(PaddleBowTextU, self).__init__(preprocessor = preprocessor,
                                           analyzer = analyzer,
                                           vectorizer = vectorizer
                                          )
 
+    def _instantiate_analyzer(self, user_dict_path,
+                              stop_words_path,
+                              syn_words_path
+                             ):
+        analyzer = JiebaTokenizer(user_dict_path= user_dict_path,
+                                    stop_words_path=stop_words_path,
+                                    syn_words_path=syn_words_path
+                                   )       
+        return analyzer
 
-class PaddleBowSim(BasePairE):
+
+class PaddleBowSim(BasePair):
     def __init__(self, paddle_model_path,
                  paddle_vocab_path,
                  user_dict_path = None,
@@ -69,11 +79,16 @@ class PaddleBowSim(BasePairE):
                  task_mode = 'pairwise'
                 ):
         self.task_mode = task_mode
-        textu = PaddleBowTextU(paddle_vocab_path,
-                               user_dict_path=user_dict_path,
-                               stop_words_path=stop_words_path,
-                               syn_words_path=syn_words_path
-                              )
+        # textu = PaddleBowTextU(paddle_vocab_path,
+        #                        user_dict_path=user_dict_path,
+        #                        stop_words_path=stop_words_path,
+        #                        syn_words_path=syn_words_path
+        #                       )
+        textu = self._instantiate_textu(paddle_vocab_path,
+                                        user_dict_path=user_dict_path,
+                                        stop_words_path=stop_words_path,
+                                        syn_words_path=syn_words_path
+                                       )
         if use_cuda:
             place = fluid.CUDAPlace(0)
         else:
@@ -83,6 +98,19 @@ class PaddleBowSim(BasePairE):
         self.program, self.feed_var_names, self.fetch_targets = fluid.io.load_inference_model(paddle_model_path, self.executor)
         self.infer_feeder = fluid.DataFeeder( place=place, feed_list=self.feed_var_names, program=self.program)
         super(PaddleBowSim, self).__init__(textu = textu)
+
+    def _instantiate_textu(self, paddle_vocab_path, 
+                           user_dict_path,
+                           stop_words_path,
+                           syn_words_path
+                          ):
+        textu = PaddleBowTextU(paddle_vocab_path,
+                               user_dict_path=user_dict_path,
+                               stop_words_path=stop_words_path,
+                               syn_words_path=syn_words_path
+                              )
+        return textu
+
 
     def transform(self, vec1, vec2):
         output = self.executor.run(self.program,
@@ -98,3 +126,54 @@ class PaddleBowSim(BasePairE):
               }
         return res
 
+
+class PaddleBowTextUE(PaddleBowTextU, BaseTextUE):
+    def __init__(self, paddle_vocab_path, user_dict_path = None,
+                 stop_words_path = None,
+                 syn_words_path = None
+                ):
+        PaddleBowTextU.__init__(self, paddle_vocab_path, user_dict_path,
+                                stop_words_path,
+                                syn_words_path
+                               )
+
+    def _instantiate_analyzer(self, user_dict_path,
+                              stop_words_path,
+                              syn_words_path
+                             ):
+        analyzer = JiebaTokenizerE(user_dict_path= user_dict_path,
+                                    stop_words_path=stop_words_path,
+                                    syn_words_path=syn_words_path
+                                   )       
+        return analyzer
+
+
+class PaddleBowSimE(PaddleBowSim, BasePairE):
+    def __init__(self, paddle_model_path,
+                 paddle_vocab_path,
+                 user_dict_path = None,
+                 stop_words_path = None,
+                 syn_words_path = None,
+                 use_cuda = False,
+                 task_mode = 'pairwise'
+                ):
+        PaddleBowSim.__init__(self, paddle_model_path, 
+                              paddle_vocab_path,
+                              user_dict_path,
+                              stop_words_path,
+                              syn_words_path,
+                              use_cuda,
+                              task_mode
+                             )
+
+    def _instantiate_textu(self, paddle_vocab_path, 
+                           user_dict_path,
+                           stop_words_path,
+                           syn_words_path
+                          ):
+        textu = PaddleBowTextUE(paddle_vocab_path,
+                               user_dict_path=user_dict_path,
+                               stop_words_path=stop_words_path,
+                               syn_words_path=syn_words_path
+                              )
+        return textu   
