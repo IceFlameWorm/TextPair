@@ -187,7 +187,7 @@ class JiebaTokenizerE(JiebaTokenizer):
                     try:
                         line = line.decode('utf-8').lstrip('\ufeff')
                     except UnicodeDecodeError:
-                        raise ValueError('dictionary file %s must be utf-8' % f_name)
+                        raise ValueError('dictionary file must be utf-8')
                 if not line:
                     continue
                 # match won't be None because there's at least one character
