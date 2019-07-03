@@ -130,5 +130,5 @@ def download_samples(file_name):
     if not os.path.exists(fp):
         abort(404)
     
-    resp = make_response(send_file(fp))
+    resp = make_response(send_file(fp, as_attachment=True))
     return resp
