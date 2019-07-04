@@ -50,7 +50,8 @@ a[href^="http://go.gotourl.xyz/"], a[href^="http://www.upupoo.com/?"], a[href^="
 }
 </style>
 
-<script src="/static/vue/vue.js"></script>
+<!-- <script src="/static/vue/vue.js"></script> -->
+<script src="/static/jquery/jquery-3.4.1.js"></script>
 </head>
 <body class="ai-platform" youdao="bind">
 <img src="/static/index/03D0F32FE36C4E3A893D1AD60E797F5B" class="ai-share-icon" alt="">
@@ -2630,7 +2631,7 @@ a[href^="http://go.gotourl.xyz/"], a[href^="http://www.upupoo.com/?"], a[href^="
         <div class="tech-catalog-info">
             短文本相似度计算服务能够提供不同短文本之间相似度的计算，输出的相似度是一个介于0到1之间的实数值，越大则相似度越高。相似度数值建议在一组数据中进行整体比对选用，输出数值越大，则代表语义相似程度相对越高
         </div>
-        <div class="tech-intro-detail">
+        <!-- <div class="tech-intro-detail">
             <ul class="intro-demo scanned">
                 <li class="clear-float demo-first-title">
                     <span class="demo-title">原句</span>
@@ -2656,7 +2657,7 @@ a[href^="http://go.gotourl.xyz/"], a[href^="http://www.upupoo.com/?"], a[href^="
                     <span class="demo-score">0.697181</span>
                 </li>
             </ul>
-        </div>
+        </div> -->
     </div>
 </div>
 <div class="tech-section tech-demo " id="tech-demo">
@@ -2677,7 +2678,7 @@ a[href^="http://go.gotourl.xyz/"], a[href^="http://www.upupoo.com/?"], a[href^="
                 </div>
             </div>
         </div> -->
-        <div class="demo-container">
+        <!-- <div class="demo-container">
             <div style="height: 20px;">
                 <a class="refresh-demo">换一个实例</a>
             </div>
@@ -2693,19 +2694,19 @@ a[href^="http://go.gotourl.xyz/"], a[href^="http://www.upupoo.com/?"], a[href^="
             </div>
         </div>
 
-        <div style="height: 30px;"></div>
+        <div style="height: 30px;"></div> -->
 
          <div id="demo-input" class="demo-container-1">
             <div>
                 <span class="refresh-demo">请自行输入测试文本</span>
             </div>
             <div class="clear-float demo-content-1">
-                <div id="demo-input-1" class="demo-input demo-input-1" style="width: 580px;" contenteditable tabindex="0" placeholder="请输入文本：">
-                    {{ input_1 }}
-                </div>
-                <div id="demo-input-2" class="demo-input demo-input-1" style="width: 580px; margin-right:0px;" contenteditable tabindex="0" placeholder="请输入文本：">
-                    {{input_2}}
-                </div>
+                <div id="demo-input-1" class="demo-input demo-input-1" style="width: 580px;" 
+                    contenteditable tabindex="0" placeholder="请输入文本："
+                    v-model="text1"></div>
+                <div id="demo-input-2" class="demo-input demo-input-1" style="width: 580px; margin-right:0px;"
+                    contenteditable tabindex="0" placeholder="请输入文本："
+                    v-model="text2"></div>
             </div>
             <div class="demo-result-1" style="width: 100%; margin-top: 10px">
                 <a role="button" data-score="0.761517" class="btn-normal selected" onclick="demo_submit()">提交比对相似度</a>
@@ -3569,13 +3570,13 @@ a[href^="http://go.gotourl.xyz/"], a[href^="http://www.upupoo.com/?"], a[href^="
 -->
 
     <script>
-        var app1 = new Vue({
-            el: '#demo-input',
-            data: {
-                input_1: '你好啊',
-                input_2: '大家好'
-            }
-        });
+        // var app1 = new Vue({
+        //     el: '#demo-input',
+        //     data: {
+        //         text1: '',
+        //         text2: '' 
+        //     }
+        // });
 
         function demo_submit() {
             var text1 = document.getElementById('demo-input-1').innerText;
@@ -3583,7 +3584,7 @@ a[href^="http://go.gotourl.xyz/"], a[href^="http://www.upupoo.com/?"], a[href^="
             if (text1.trim() == "" || text2.trim() == "") {
                 return;
             }
-            var url = "/sim?" + "text1=" + text1 + "&" + "text2=" + text2;
+            var url = "/sim";
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if(this.readyState == 4 && this.status == 200) {
@@ -3596,9 +3597,90 @@ a[href^="http://go.gotourl.xyz/"], a[href^="http://www.upupoo.com/?"], a[href^="
                     }
                 }
             };
-            xhttp.open("GET", url, true);
-            xhttp.send()
+            xhttp.open("POST", url, true);
+            xhttp.setRequestHeader("Content-type","application/json");
+            xhttp.send(JSON.stringify({"text1": text1,
+                                       "text2": text2,
+                                       "model": "paddle_bow"
+                                      }))
         };
+
+        //去除复制样式的方法
+        function textInit(e) {
+            e.preventDefault();//阻止默认事件
+            var text;
+            var clp = (e.originalEvent || e).clipboardData;
+            if (clp === undefined || clp === null) {
+                text = window.clipboardData.getData("text") || "";
+                if (text !== "") {
+                    if (window.getSelection) {
+                        var newNode = document.createElement("span");
+                        newNode.innerHTML = text;
+                        window.getSelection().getRangeAt(0).insertNode(newNode);
+                    } else {
+                        document.selection.createRange().pasteHTML(text);
+                    }
+                }
+            } else {
+                text = clp.getData('text/plain') || "";
+                if (text !== "") {
+                    document.execCommand('insertText', false, text);
+                }
+            }
+        };
+
+        $( document ).on( "paste", ".demo-input-1", function(e) {
+            //去除复制样式
+            textInit(e);
+            //去除复制过来的 标签
+            if($('.TextInner').attr('list-layout') == 'true'){ //如果可编辑div .TextInner中存在li
+                //找到所有的li
+                var $lichild = $('.TextInner').find('li');
+                $lichild.each(function () {
+                    //获取li 的子元素var htmlunList = '';
+                    var $childEles = $(this).children().not('br');
+                    var htmlunList = '';
+                    htmlunList +=   $(this)
+                        .clone()    //复制元素
+                        .children() //获取所有子元素
+                        .remove()   //删除所有子元素
+                        .end()  //回到选择的元素
+                        .html();//获取文本值
+                    if($childEles>0){
+                        $childEles.each(function(){
+                            htmlunList +=$(this).text();
+                        })
+                    }
+                    $(this).html(htmlunList);
+                })
+            }else{
+                var $childEles = $('.TextInner').children().not('br');
+                if($childEles.length>0){
+                    var htmlunList = '';
+                    htmlunList +=   $('.TextInner')
+                        .clone()    //复制元素
+                        .children() //获取所有子元素
+                        .remove()   //删除所有子元素
+                        .end()  //回到选择的元素
+                        .html();//获取文本值
+                    $childEles.each(function(){
+                        var tagname =  $(this)[0].tagName;
+                        htmlunList += $(this).text();
+                        /*if(tagname == 'SPAN'){
+                            htmlunList += $(this).text();
+                        }
+                        if(tagname == 'DIV'){
+                            htmlunList +='<br>'+ $(this).text();
+                        }*/
+                    });
+                    $('.TextInner').html(htmlunList);
+                }
+
+            }
+            //最后将容器高度 调整为自适应撑起的高度
+            $(clickTextThis).css('height',$('.TextInner').css('height'));
+            $('.editTextBox').css('height',$('.TextInner').css('height'));
+        });
     </script>
 
 </body>
