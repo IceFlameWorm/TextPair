@@ -6,6 +6,8 @@ from textpair.single.paddle_bow import PaddleBowSimE
 from textpair.single.simple_bert import BertSim2E
 from textpair.single.ann import Ann
 
+from .auth import access_token_required
+
 import json
 import os
 FILE_PATH = os.path.dirname(__file__)
@@ -40,6 +42,7 @@ class SimFactory(object):
             
 
 @app.route("/sim", methods = ['POST'])
+@access_token_required
 def sim():
     res = {}
     try:
@@ -132,3 +135,10 @@ def download_samples(file_name):
     
     resp = make_response(send_file(fp, as_attachment=True))
     return resp
+
+
+ACCESS_TOKEN_TXT = os.path.join(FILE_PATH, 'access_token.txt')
+@app.route('/access_token', methods = ['GET'])
+def get_access_token():
+    with open(ACCESS_TOKEN_TXT, 'r') as f:
+        return f.read().strip()
