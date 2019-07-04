@@ -2,8 +2,8 @@ from .app import app
 from flask import request, jsonify
 from flask import make_response, abort, send_file, send_from_directory
 
-from textpair.single.paddle_bow import PaddleBowSim
-from textpair.single.simple_bert import BertSim2
+from textpair.single.paddle_bow import PaddleBowSimE
+from textpair.single.simple_bert import BertSim2E
 from textpair.single.ann import Ann
 
 import json
@@ -25,8 +25,8 @@ class SimFactory(object):
              'paddle_bow': None
             }
 
-    _mapc = {"simple_bert": lambda: BertSim2(bert_model_path = BERT_MODEL_PATH, bert_vocab_path = BERT_VOCAB_PATH),
-             "paddle_bow": lambda: PaddleBowSim(paddle_model_path = PADDLE_MODEL_PATH, paddle_vocab_path = PADDLE_VOCAB_PATH)
+    _mapc = {"simple_bert": lambda: BertSim2E(bert_model_path = BERT_MODEL_PATH, bert_vocab_path = BERT_VOCAB_PATH),
+             "paddle_bow": lambda: PaddleBowSimE(paddle_model_path = PADDLE_MODEL_PATH, paddle_vocab_path = PADDLE_VOCAB_PATH)
             } 
 
     @classmethod
