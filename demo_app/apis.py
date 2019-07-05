@@ -6,6 +6,8 @@ from textpair.single.paddle_bow import PaddleBowSimE
 from textpair.single.simple_bert import BertSim2E
 from textpair.single.ann import Ann
 
+from .sync import sync_required
+
 import json
 import os
 FILE_PATH = os.path.dirname(__file__)
@@ -40,6 +42,7 @@ class SimFactory(object):
             
 
 @app.route("/sim", methods = ['POST'])
+@sync_required
 def sim():
     res = {}
     try:
