@@ -2,6 +2,7 @@
 <!-- saved from url=(0061)http://dai.deloitte.com:5566/daip/html/sentimentanalysis.html -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script type="text/javascript" src="/static/index/jquery-3.3.1.min.js.download"></script>
+
     <link rel="stylesheet" type="text/css" href="/static/index/style.css">
     <link rel="stylesheet" href="/static/index/bootstrap.min.css">
     <link href="/static/index/open_sans.css" rel="stylesheet">
@@ -17,64 +18,79 @@
             <div class=" sticky-top flex-grow-1 sidebar">
                 <div class="nav flex-sm-column">
                     <p class="head">NLP Playground</p>
-                    <button class="menubt" id="bm">短文本测试平台</button><br>
-                    <button class="menubt" id="bm2">情感分析</button><br>
-                    <button class="menubt" id="bm3">关键词抽取</button><br>
+                    <p class="english">Natural Language Processing is  ......</p>
                 </div>
             </div>
         </div>
         <div class="col-sm-9" id="main">
             <div class="flex1"></div>
             <div class="flex2"></div>
-            <div class="green-one-sa" id="Fade2">
+            <div class="green-one-sa">
                 <div>
                     <p>
                         <h1><font face="verdana">短文本测试平台</font></h1>
                         &nbsp;&nbsp;短文本相似度计算服务能够提供不同短文本之间相似度的计算，输出的相似度是一个介于0到1之间的实数值，越大则相似度越高.<br>
-                        &nbsp;&nbsp;目前仅支持中文，200字以内。
                     </p>
                 </div>
                 <div>
 
-                    <input type="text" name="text" id="OriginalText"  style="background:rgba(178,200,187,0.4);border:0px;margin-left:25px;height:143px; width:300px;" placeholder="请输入原句...">
-                    <input type="text" name="text" id="CompareText"  style="background:rgba(178,200,187,0.4);border:0px;margin-left:25px;height:143px; width:300px;" placeholder="请输入比较句...">
-                    <button type="submit" name="submit" id="submitbtn" class="sub" onclick="submit_btn()">进行测试</button>
+                    <textarea rows="50" cols = "4" type="text" name="text" id="OriginalText"  style="background:rgba(178,200,187,0.4);border:0px;margin-left:25px;height:143px; width:300px;" placeholder="请输入原句..."></textarea>
+                    <textarea rows="50" cols = "4"  type="text" name="text" id="CompareText"  style="background:rgba(178,200,187,0.4);border:0px;margin-left:25px;height:143px; width:300px;" placeholder="请输入比较句..."></textarea><br>
+                    
+                    <button type="submit" name="submit" id="submitbtn" onclick="submit_btn()">进行测试</button>
+                    <div id = "template" style="margin-top:15px;margin-right:40px;">
+
+                    <button type="submit" name="submit" style="background-color: black;position: relative; left:33%;" id ="download">下载自定义模板</button>
+                     <button type="submit" name="submit"  id = "chan" onclick ="Remove()" style="background-color: black;position: relative; left:35%;">选择同义词库</button>
+                                          
+                    <input type="file" value="选择自定义同同义词库" style ="width: 200px; position:absolute;top:54.3%;left:60% " id="upload"   onchange="return fileUpload_onselect()"/>
+                </div>
                 </div>
                 <div style="margin-top:30px">
                     <label>相似度： </label>
-                    <font id="resultscore" name="resultscore">0</font>
+                    <font id="resultscore" name="resultscore">0</font><br>
+                    <label>Text1： </label>
+                    <font id="resultscore3" name="resultscore">0</font><br>
+                    <label>Text2： </label>
+                    <font id="resultscore4" name="resultscore">0</font><br>
+                    <label>WORDS1： </label>
+                    <font id="resultscore1" name="resultscore">0</font><br>
+                    <label>WORDS2： </label>
+                    <font id="resultscore2" name="resultscore">0</font><br>
+                    <label>生成API： </label>
+                    <font id="api" name="api">XXX</font>
                 </div>
             </div>
-            <div class="green-one-sa" id="Fade3">
-                <div>
-                    <p>
-                        <h1><font face="verdana">情感分析</font></h1>
-                        目前仅支持中文，50字以内。您可以尝试输入：<br>
-                        &nbsp;&nbsp;好评<br>
-                        &nbsp;&nbsp;用起来特别舒服<br>
-                        &nbsp;&nbsp;你们这个产品很差啊<br>
-                        &nbsp;&nbsp;质量很差
-                    </p>
-                </div>
-                <div>
-                    <input type="text" name="text" id="text" placeholder="请输入。。。"><br>
-                    <button class="sub" type="submit" name="submit" id="submitbtn2">Submit</button>
-                </div>
-                <div style="margin-top:20px">
-                    <label>情感分类： </label>
-                    <label id="resultcate" name="resultcate"></label>
-                </div>
-                <div>
-                    <label>情感评分： </label>
-                    <label id="resultscore2" name="resultscore"></label>
-                </div>
-            </div>
+        </div>
+        <div id= "TABLE">
+            <table id= "table1" border="5" cellspacing="20" cellpadding="10" bgcolor="white" >
+            <tr bgcolor="gold">
+                <th>词汇</th>
+                <th>同义词</th>
+                </tr>
+            <tr>
+            </tr>
+            </table>
+
         </div>
 
     </div>
 </div>
 <script type="text/javascript">
-			function submit_btn(){
+        var pointsTxt;
+
+
+        function Remove(){
+            if(document.getElementById("chan").innerHTML=="撤销"){
+                pointsTxt = "";
+                $("#upload").val("");
+            }
+            
+        }
+
+        //SUbmission button "进行测试"
+		function submit_btn(){
+
             var text1 = document.getElementById('OriginalText').value;
             var text2 = document.getElementById('CompareText').value;
             if (text1.trim() == "" || text2.trim() == "") {
@@ -86,73 +102,128 @@
             xhttp.onreadystatechange = function() {
                 if(this.readyState == 4 && this.status == 200) {
                     resp = JSON.parse(this.responseText);
+                    //alert(resp.words1);
                     if (resp['status'] == 0) {
                         //alert("running");
-                        document.getElementById("resultscore").innerText= resp['score']
+                        document.getElementById("resultscore").innerText= resp['score'];
+                        document.getElementById("resultscore3").innerText= resp['text1'];
+                        document.getElementById("resultscore4").innerText= resp['text2'];
+                        document.getElementById("resultscore1").innerText= resp['words1'];
+                        document.getElementById("resultscore2").innerText= resp['words2'];
                     }
                     else {
                         document.getElementById("resultscore").innerText= resp['msg']
                     }
                 }
             };
-            xhttp.open("POST", url, true);
+           xhttp.open("POST", url, true);
             xhttp.setRequestHeader("Content-type","application/json");
             xhttp.send(JSON.stringify({"text1": text1,
                                        "text2": text2,
-                                       "model": "paddle_bow"
+                                       "model": "paddle_bow",
+                                       "syn_words_str":pointsTxt
+
                                       }));
+            
+          
         }; 
 
 
-        //Side Bar Menu     
-        $(document).ready(function(){
-                $("#bm").click(function(){
-                $("#Fade2").fadeIn(2000);
-                $("#Fade3").fadeOut(2000); 
+        $('#download').click(function(){window.location.href="http://127.0.0.1:5000/samples/syn_words_samples.txt"}) 
 
-            });
+        
 
-                $("#bm2").click(function(){
-                $("#Fade2").fadeOut(1000);
-                $("#Fade3").fadeIn(4000);     
-            });
-        });
+
+        function readFile(){
+             $("#upload").click();
+        };
 
 
 
-        $("#submitbtn2").on("click",function(){
-                $.ajax({
-                    type: "POST",
-                    url: "http://dai.deloitte.com:56808/todo/task",
-                    contentType: "application/json;charset=utf-8",
-                    data: JSON.stringify({'input':$("#text").val()}),
-                    dataType: "json",
-                    success:function (message) {
-                        console.log($("#text").val());
-                        console.log(message.output);
-                        var score = message.output
-                        if (score > 0.6){
-                            $("#resultcate").html("正面");
-                        }else if(score > 0.4){
-                            $("#resultcate").html("中性");
-                        }else{
-                            $("#resultcate").html("负面");
-                        }
-                        $("#resultscore2").html(message.output);
-                    },
-                    error:function (message) {
-                        alert("提交失败"+JSON.stringify(message));
-                    }
-                });
-            });
+        function fileUpload_onselect(){
+            document.getElementById("chan").innerHTML = "撤销";
+            var  path = $("#upload").val();
+            var selectedFile = document.getElementById("upload").files[0];
+            var reader = new FileReader();
+            var userAgent = navigator.userAgent;
+            if (userAgent.indexOf("Windows")!=1){
+                reader.readAsText(selectedFile,"GBK");
 
+            }else{
+                 reader.readAsText(selectedFile);
+            }
+           
+            reader.onload = function(oFREvent){
+                pointsTxt = oFREvent.target.result;
+
+                 }
+        }
+
+
+
+     
+  
 
 
         
-            
 
 </script>
 
 
 
 </body></html>
+
+
+
+<!-- 
+
+
+
+
+        
+
+        //Table visualization
+        // function submitTable(){
+        //     var word = document.getElementById("OriginalText").value;
+        //     var syn=document.getElementById("CompareText").value;
+        //     if (word.trim() == "" || syn.trim() == "") {
+        //         alert("自定义同义词组不能为空");
+        //         return;
+        //     }
+        //     row = document.getElementById("table1").insertRow();
+        //     if(row!=null){
+        //         cell=row.insertCell();
+        //         cell.innerHTML=word;
+        //         cell = row.insertCell();
+        //         cell.innerHTML=syn;
+        //     }
+        //     return false;
+        //     } 
+
+        //Transmit to back  end
+        // $(document).ready(function(){
+        //         $("#TIJIAO").click(function(){
+        //             if(document.getElementById('TIJIAO').innerHTML == "确认提交"){
+        //                  $("#table1").fadeOut(1500);
+        //                  document.getElementById('TIJIAO').innerHTML = "下载历史文件";
+        //             }else{
+        //             $("#table1").fadeIn(1500);
+        //             document.getElementById('TIJIAO').innerHTML = "确认提交";
+        //         };
+        //     });
+        //     });
+
+
+        // 上传数据// -->
+
+
+<!--     //Store all the data when user request
+    // function Storedata(){
+    //     var text1 = document.getElementById('OriginalText').value;
+    //     var text2 = document.getElementById('CompareText').value;
+    //     var item = {"word":text1, "syn":text2};
+    //     this.JsArray.push(item);
+    //     alert(this.JsArray[1].word);
+    //     }
+
+ -->

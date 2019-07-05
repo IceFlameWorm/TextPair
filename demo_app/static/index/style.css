@@ -1,6 +1,5 @@
 body {
     background-color:#012169;
-    font-family: 黑体；
 }
 form {
 	padding-bottom: 0px; padding-top: 0px; padding-left: 0px; margin: 0px; padding-right: 0px
@@ -12,7 +11,7 @@ span {
 	padding-bottom: 0px; padding-top: 0px; padding-left: 0px; margin: 0px; padding-right: 0px
 }
 input {
-    font: 12px 黑体;
+    font: 12px arial;
     color: white;
 }
 a {
@@ -75,11 +74,11 @@ a:hover {
     
 	color:white;
    
+
     font-size:11pt;
 	margin:200px auto;
     padding:10px 40px;
     width:800px;
-    height:400px;
 	z-index:5;
 
 }
@@ -114,6 +113,7 @@ a:hover {
     text-align: center;
     font-size:23pt;
     font-family:'Open Sans', sans-serif;
+    font-weight:100;
     line-height: 29pt;
 }
 
@@ -191,13 +191,13 @@ figure {
     height:100vh;
 }
 
-input::-webkit-input-placeholder{
+textarea::-webkit-input-placeholder{
             color:white;
         }
 
 button{
     position:relative;
-    left:41%;
+    left:42%;
     top:10px;
     background:rgba(137,190,178,0);
     border:0px;
@@ -215,33 +215,18 @@ button{
 }
 
 
-#Fade2{
+#change{
+    background-color: rgba(178,200,187,0.4);
+}
+
+
+textarea{
+    color:white;
+}
+
+#table1{
+    position:absolute;
+    right:0px;
     display: none;
-
-}
-
-#Fade3{
-    display: none;
-
-}
-
-.menubt{
-    position: relative;
-    top:150px;
-    left:10px;
-}
-
-
-#text{
-color:black;}
-
-
-
-#submitbtn2{
-position:relative;
-left:65px;}
-
-.sub{
-    background-color:rgba(137,190,178,0.2) 
-}
+};
 
