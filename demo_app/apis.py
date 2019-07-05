@@ -74,7 +74,7 @@ def sim():
 
     model.reset_tokenizer()
     user_dict_str = req_dict.get('user_dict_str')
-    if user_dict_str is not None:
+    if user_dict_str is not None and user_dict_str.strip() != '':
         try:
             model.sub_tokenizer(user_dict_str)
         except Exception as e:
@@ -85,7 +85,7 @@ def sim():
 
     model.reset_stop_words_set()
     stop_words_str = req_dict.get('stop_words_str')
-    if stop_words_str is not None:
+    if stop_words_str is not None and stop_words_str.strip() != '':
         try:
             model.sub_stop_words_set(stop_words_str)
         except Exception as e:
@@ -96,7 +96,7 @@ def sim():
        
     model.reset_syn_set()
     syn_words_str = req_dict.get('syn_words_str')
-    if syn_words_str is not None:
+    if syn_words_str is not None and syn_words_str.strip() != '':
         try:
             model.sub_syn_set(syn_words_str)
         except Exception as e:

@@ -196,10 +196,11 @@ textarea::-webkit-input-placeholder{
         }
 
 button{
+    height:30px;
     position:relative;
     left:42%;
     top:10px;
-    background:rgba(137,190,178,0);
+    background:black;
     border:0px;
     color: white;
     font-size:16pt;
