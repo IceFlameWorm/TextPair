@@ -3,7 +3,7 @@ from .base import BaseTextU, BaseTextUE
 from .base import BasePair, BasePairE
 
 from .common import TextNormalizer
-from .common import JiebaTokenizerE
+from .common import JiebaTokenizerE, JiebaTokenizer
 from .ann import Ann
 
 import paddle
