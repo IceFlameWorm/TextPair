@@ -35,8 +35,9 @@ class TextNormalizer(BasePreprocessor):
         # ptext = re.sub(r'\^', '', ptext)
 
         ## 中文繁体转简体
-        snow = SnowNLP(ptext)
-        ptext = snow.han
+        if len(ptext) > 0: # 空字符串会报错
+            snow = SnowNLP(ptext)
+            ptext = snow.han
 
         ## 英文统一为小写
         ptext = ptext.lower()
