@@ -54,9 +54,9 @@ def sim():
         print(e)
         return jsonify(res)
     
-    text1 = req_dict.get('text1')
-    text2 = req_dict.get('text2')
-    if text1 is None or text2 is None:
+    text1 = req_dict.get('text1', '').strip()
+    text2 = req_dict.get('text2', '').strip()
+    if text1 == '' or text2 == '':
         res['status'] = -2
         res['msg'] = 'error: text1 or text2 is not set.'
         return jsonify(res)
