@@ -45,6 +45,7 @@ class PaddleBowVectorizer(BaseVectorizer):
                         vec.append(self._vocab[char])
         if len(vec) == 0:
             vec = [0]
+            raise Exception("{}: input vector is empty.".format(self.__class__.__name__))
 
         return vec
 

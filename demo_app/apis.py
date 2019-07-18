@@ -111,7 +111,7 @@ def sim():
         out = model(ann1, ann2)
     except Exception as e:
         res['status'] = -7
-        res['msg'] = "error: failed to run the model."
+        res['msg'] = "error: failed to run the model. Exception msg: {}".format(e.args[0])
         print(e)
         return jsonify(res)
     else:
