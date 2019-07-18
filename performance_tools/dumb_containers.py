@@ -385,7 +385,7 @@ def evaluate_performance(all_target, predicted, toplot=True):
 
     print('KS=' + str(round(ks, 3)) + ', AUC=' + str(round(roc_auc,2)) +', N='+str(predicted.shape[0]))
     print('At threshold=' + str(round(event_rate, 3)) + ', TPR=' + str(round(tpr[minind],2)) + ', ' + str(int(round(tpr[minind]*event_rate*all_target.shape[0]))) + ' out of ' + str(int(round(event_rate*all_target.shape[0]))))
-    print('At threshold=' + str(round(event_rate, 3)) + ', TPR=' + str(round(fpr[minind],2)) + ', ' + str(int(round(fpr[minind]*(1.0-event_rate)*all_target.shape[0]))) + ' out of ' + str(int(round((1.0-event_rate)*all_target.shape[0])))  )
+    print('At threshold=' + str(round(event_rate, 3)) + ', FPR=' + str(round(fpr[minind],2)) + ', ' + str(int(round(fpr[minind]*(1.0-event_rate)*all_target.shape[0]))) + ' out of ' + str(int(round((1.0-event_rate)*all_target.shape[0])))  )
     
     # Score average by percentile
     binnum = 10
