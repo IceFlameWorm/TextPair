@@ -35,9 +35,17 @@ class PaddleBowVectorizer(BaseVectorizer):
 
     def transform(self, ares):
         words = ares
-        vec = [self._vocab[word] for word in words if word in self._vocab]
+        vec = []
+        for word in words:
+            if word in self._vocab:
+                vec.append(self._vocab[word])
+            else:
+                for char in word:
+                    if char in self._vocab:
+                        vec.append(self._vocab[char])
         if len(vec) == 0:
             vec = [0]
+            raise Exception("{}: input vector is empty.".format(self.__class__.__name__))
 
         return vec
 

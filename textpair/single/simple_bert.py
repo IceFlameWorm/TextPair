@@ -15,6 +15,8 @@ class BertAnalyzer(BaseAnalyzer):
         cls_token = ["[CLS]"]
         sep_token = ["[SEP]"]
         tokens = self.bert_tokenizer.tokenize(ptext)
+        if len(tokens) == 0:
+            raise Exception('{}: there are no input tokens.'.format(self.__class__.__name__))
         return cls_token + tokens + sep_token
 
 
