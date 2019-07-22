@@ -1,3 +1,5 @@
+flask
+scikit-learn
 jieba
 snownlp
 paddlepaddle
