@@ -1,4 +1,6 @@
 from .app import app
+from .app import logger
+
 from flask import request, jsonify
 from flask import make_response, abort, send_file, send_from_directory
 
@@ -54,9 +56,9 @@ def sim():
         print(e)
         return jsonify(res)
     
-    text1 = req_dict.get('text1')
-    text2 = req_dict.get('text2')
-    if text1 is None or text2 is None:
+    text1 = req_dict.get('text1', '').strip()
+    text2 = req_dict.get('text2', '').strip()
+    if text1 == '' or text2 == '':
         res['status'] = -2
         res['msg'] = 'error: text1 or text2 is not set.'
         return jsonify(res)
@@ -70,6 +72,7 @@ def sim():
     if model is None:
         res['status'] = -3
         res['msg'] = "no available model"
+        logger.error(res)
         return jsonify(res)
 
     model.reset_tokenizer()
@@ -81,6 +84,8 @@ def sim():
             res['status'] = -4
             res['msg'] = 'Error: failed to sub tokenizer, please check the format.'
             print(e)
+            logger.error(res)
+            logger.exception(e)
             return jsonify(res)
 
     model.reset_stop_words_set()
@@ -92,6 +97,8 @@ def sim():
            res['status'] = -5
            res['msg'] = 'Error: failed to sub stop_words, please check the format.'
            print(e)
+           logger.error(res)
+           logger.exception(e)
            return jsonify(res)
        
     model.reset_syn_set()
@@ -103,6 +110,8 @@ def sim():
             res['status'] = -6
             res['msg'] = 'Error: failed to sub syn_set, please check the format.'
             print(e)
+            logger.error(res)
+            logger.exception(e)
             return jsonify(res)
 
     try:
@@ -111,8 +120,10 @@ def sim():
         out = model(ann1, ann2)
     except Exception as e:
         res['status'] = -7
-        res['msg'] = "error: failed to run the model."
+        res['msg'] = "error: failed to run the model. Exception msg: {}".format(e.args[0])
         print(e)
+        logger.error(res)
+        logger.exception(e)
         return jsonify(res)
     else:
         res['status'] = 0
@@ -121,6 +132,7 @@ def sim():
         res['words2'] = ann2.ares
         res['model'] = model_name
         res['score'] = float(out['score'])
+        logger.info(res)
         return jsonify(res)
 
 
