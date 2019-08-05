@@ -37,7 +37,7 @@ NLP中有不少任务涉及比较两段文本的关系，比如词义相似度�
     3. 基于bert编码器 + 全连接层构建的siamese network进行语义相似度比较
         1. 这是一种表示型的语义相似度模型，不同于bert官方提供的交互式的相似度模型
         2. 该模型是基于0.6.2版本的pytorch_bert_pretrained经过fine tune得到的
-        3. 模型仓库名 bert_fine_tune
+        3. 模型安装及使用参考我的另外一个仓库 bert_fine_tune
 
 4. 文本相似度 web demo，在项目根目录下运行 ```python run.py```，在浏览器访问 `http://127.0.0.1:5000`
 5. 语义相似度接口 /sim，目前使用POST方法调用
