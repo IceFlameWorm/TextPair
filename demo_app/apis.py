@@ -6,6 +6,7 @@ from flask import make_response, abort, send_file, send_from_directory
 
 from textpair.single.paddle_bow import PaddleBowSimE
 from textpair.single.simple_bert import BertSim2E
+from textpair.single.ft_bert import FtBertSimE
 from textpair.single.ann import Ann
 
 from .sync import sync_required
@@ -23,14 +24,19 @@ PADDLE_PATH = os.path.join(DATA_PATH, 'paddle_models/sim_net')
 PADDLE_MODEL_PATH = os.path.join(PADDLE_PATH, 'model_files/simnet_bow_pairwise_pretrained_model')
 PADDLE_VOCAB_PATH = os.path.join(PADDLE_PATH, 'data/term2id.dict')
 
+FT_BERT_MODEL_PATH = os.path.join(BERT_PATH, 'lcqmc_fine_tune_40_1_1e-5')
+FT_BERT_VOCAB_PATH = FT_BERT_MODEL_PATH
+
 
 class SimFactory(object):
     _mapi = {'simple_bert': None,
-             'paddle_bow': None
+             'paddle_bow': None,
+             'ft_bert': None
             }
 
     _mapc = {"simple_bert": lambda: BertSim2E(bert_model_path = BERT_MODEL_PATH, bert_vocab_path = BERT_VOCAB_PATH),
-             "paddle_bow": lambda: PaddleBowSimE(paddle_model_path = PADDLE_MODEL_PATH, paddle_vocab_path = PADDLE_VOCAB_PATH)
+             "paddle_bow": lambda: PaddleBowSimE(paddle_model_path = PADDLE_MODEL_PATH, paddle_vocab_path = PADDLE_VOCAB_PATH),
+             "ft_bert": lambda: FtBertSimE(bert_model_path = FT_BERT_MODEL_PATH, bert_vocab_path = FT_BERT_VOCAB_PATH)
             } 
 
     @classmethod
