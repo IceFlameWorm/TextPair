@@ -16,8 +16,8 @@ FILE_PATH = os.path.dirname(__file__)
 DATA_PATH = os.path.join(FILE_PATH, '../data')
 
 BERT_PATH = os.path.join(DATA_PATH, 'bert/pytorch')
-BERT_MODEL_PATH = os.path.join(BERT_PATH, 'bert-base-chinese.tar.gz')
-BERT_VOCAB_PATH = os.path.join(BERT_PATH, 'bert-base-chinese-vocab.txt')
+BERT_MODEL_PATH = os.path.join(BERT_PATH, 'bert_base_chinese')
+BERT_VOCAB_PATH = BERT_MODEL_PATH
 
 PADDLE_PATH = os.path.join(DATA_PATH, 'paddle_models/sim_net')
 PADDLE_MODEL_PATH = os.path.join(PADDLE_PATH, 'model_files/simnet_bow_pairwise_pretrained_model')
