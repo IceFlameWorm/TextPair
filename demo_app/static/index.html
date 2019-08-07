@@ -40,6 +40,12 @@
                     <textarea rows="50" cols = "4"  type="text" name="text" id="CompareText"  style="background:rgba(178,200,187,0.4);border:0px;margin-left:25px;height:143px; width:300px;" placeholder="请输入比较句..."></textarea><br>
                     </div>
 <!--                     <button type="submit" name="submit" id="ChangeToStop" onclick="Stop()"><</button> -->
+                    <label id='model_label'>选择模型：</label>
+                    <select name="model" id="model_select">
+                        <option value="simple_bert">simple_bert</option>
+                        <option value="paddle_bow" selected>paddle_bow</option>
+                        <option value="ft_bert">ft_bert</option>
+                    </select>
                     <button type="submit" name="submit" id="submitbtn" onclick="submit_btn()">进行测试</button>
 <!--                     <button type="submit" name="submit" id="ChangeToSyn" onclick="Syn()">></button> -->
 
@@ -49,7 +55,7 @@
                     <button type="submit"  style="height:30px;background-color: black;position: relative; left:27%;"  id="download" onclick="downloadSyn()">下载同义词库模板</button>
                     <button type="submit"  id = "chan" onclick ="RemoveSyn()" style="height:30px;background-color: black;position: relative; left:32%;z-index: 9000">选择自定义库</button>
                                           
-                    <input type="file" value="选择自定义同同义词库" style ="height:28px;width: 200px; position:absolute;top:49.6%;left:60% " id="uploadSync"   onchange="return fileUpload_onselectSyn()"/>
+                    <input type="file" value="选择自定义同同义词库" style ="height:28px;width: 200px; position:absolute;top:49.1%;left:60% " id="uploadSync"   onchange="return fileUpload_onselectSyn()"/>
                     </div>
 
 
@@ -59,7 +65,7 @@
                     <button type="submit"  style="height:30px;background-color: black;position: relative; left:27%;" id="download1" onclick="downloadStop()">下载停用词库模板</button>
                     <button type="submit"   id = "chan2" onclick ="RemoveStop()" style="height:30px;background-color: black;position: relative; left:32%;z-index: 9000">选择自定义库</button>
                                           
-                    <input type="file" value="选择停用词库" style ="height:28px;width: 200px; position:absolute;top:54%;left:60% " id="uploadStop"   onchange="return fileUpload_onselectStop()"/>
+                    <input type="file" value="选择停用词库" style ="height:28px;width: 200px; position:absolute;top:53.2%;left:60% " id="uploadStop"   onchange="return fileUpload_onselectStop()"/>
 
                     </div>
 
@@ -69,7 +75,7 @@
                     <button type="submit"  style="height:30px;background-color: black;position: relative; left:27%;"  onclick="downloadUser()">下载自定义库模板</button>
                     <button type="submit"   id = "chan3" onclick ="Remove()" style="height:30px;background-color: black;position: relative; left:32%;z-index: 9000">选择自定义库</button>
                                           
-                    <input type="file" value="选择自定义词库" style ="height:28px;width: 200px; position:absolute;top:58.7%;left:60% " id="upload3"   onchange="return fileUpload_onselect()"/>
+                    <input type="file" value="选择自定义词库" style ="height:28px;width: 200px; position:absolute;top:57.2%;left:60% " id="upload3"   onchange="return fileUpload_onselect()"/>
 
 
                     </div>
@@ -77,15 +83,17 @@
                 </div>
                 <div style="margin-top:30px">
                     <label>相似度： </label>
-                    <font id="resultscore" name="resultscore">0</font><br>
+                    <font id="resultscore" name="resultscore"></font><br>
+                    <label>model： </label>
+                    <font id="resultscore5" name="resultscore"></font><br>
                     <label>Text1： </label>
-                    <font id="resultscore3" name="resultscore">0</font><br>
+                    <font id="resultscore3" name="resultscore"></font><br>
                     <label>Text2： </label>
-                    <font id="resultscore4" name="resultscore">0</font><br>
+                    <font id="resultscore4" name="resultscore"></font><br>
                     <label>WORDS1： </label>
-                    <font id="resultscore1" name="resultscore">0</font><br>
+                    <font id="resultscore1" name="resultscore"></font><br>
                     <label>WORDS2： </label>
-                    <font id="resultscore2" name="resultscore">0</font><br>
+                    <font id="resultscore2" name="resultscore"></font><br>
                     <label>生成API： </label>
                     <font id="api" name="api">XXX</font>
                 </div>
@@ -217,6 +225,9 @@
 
             var text1 = document.getElementById('OriginalText').value;
             var text2 = document.getElementById('CompareText').value;
+
+            var model_type = $("#model_select").val();
+
             if (text1.trim() == "" || text2.trim() == "") {
                 return;
             }
@@ -230,6 +241,8 @@
                     if (resp['status'] == 0) {
                         //alert("running");
                         document.getElementById("resultscore").innerText= resp['score'];
+                        document.getElementById("resultscore5").innerText= model_type;
+                        document.getElementById("resultscore3").innerText= resp['text1'];
                         document.getElementById("resultscore3").innerText= resp['text1'];
                         document.getElementById("resultscore4").innerText= resp['text2'];
                         document.getElementById("resultscore1").innerText= resp['words1'];
@@ -244,7 +257,7 @@
             xhttp.setRequestHeader("Content-type","application/json");
             xhttp.send(JSON.stringify({"text1": text1,
                                        "text2": text2,
-                                       "model": "paddle_bow",
+                                       "model": model_type,
                                        "syn_words_str":pointsTxtSyn,
                                        "stop_words_str":pointsTxtStop,
                                        "user_dict_str":pointsTxt
