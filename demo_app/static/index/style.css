@@ -198,13 +198,13 @@ textarea::-webkit-input-placeholder{
 button{
     height:30px;
     position:relative;
-    left:42%;
+    left:27%;
     top:10px;
     background:black;
     border:0px;
     color: white;
     font-size:16pt;
-    margin:10px auto;
+    /* margin:10px auto; */
 }
 
 
@@ -229,5 +229,16 @@ textarea{
     position:absolute;
     right:0px;
     display: none;
-};
+}
 
+#model_label{
+    position: relative;
+    left: 26%;
+    top: 10px;
+}
+
+#model_select{
+    position: relative;
+    left: 26%;
+    top:10px;
+}
