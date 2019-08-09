@@ -97,7 +97,7 @@ class JiebaTokenizer(BaseAnalyzer):
                 if os.path.isfile(fp):
                     with open(fp, 'r') as f:
                         res = set(line.strip() for line in f)
-                        stop_words_set.add(res)
+                        stop_words_set.union(res)
             return stop_words_set
 
     def _load_syn_words(self, syn_words_path):
