@@ -39,6 +39,8 @@ NLP中有不少任务涉及比较两段文本的关系，比如词义相似度�
         2. 该模型是基于0.6.2版本的pytorch_bert_pretrained经过fine tune得到的
         3. 模型安装及使用参考我的另外一个仓库 bert_fine_tune
 
+    **预训练的模型：** 预训练的模型可以从该 [链接](https://pan.baidu.com/s/1flykg2lCRrWoRcKhVphi1A) 处下载，提取码：xcqr。下载后，把压缩包内的data文件夹解压到当前目录即可。
+
 4. 文本相似度 web demo，在项目根目录下运行 ```python run.py```，在浏览器访问 `http://127.0.0.1:5000`
 5. 语义相似度接口 /sim，目前使用POST方法调用
     1. request header：`Content-Type：application/json`
